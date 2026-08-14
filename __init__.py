@@ -11,7 +11,7 @@ bl_info = {
 }
 
 import bpy
-from .motions import batch_01, interactions
+from .motions import batch_01, batch_02, interactions
 
 class ADEOLA_PT_motion_panel(bpy.types.Panel):
     """Creates a Panel in the scene context of the properties editor"""
@@ -37,6 +37,18 @@ class ADEOLA_PT_motion_panel(bpy.types.Panel):
         row.operator("adeola.add_laser_scan", text="Laser Scan Reveal")
         
         layout.separator()
+        layout.label(text="Phase 2: Physics & Layout")
+        
+        row = layout.row()
+        row.operator("adeola.add_deflation", text="Deflation / Inflation")
+        
+        row = layout.row()
+        row.operator("adeola.add_squash_stretch", text="Squash & Stretch")
+        
+        row = layout.row()
+        row.operator("adeola.add_hex_ripple", text="Hex-Grid Ripple")
+        
+        layout.separator()
         layout.label(text="Phase 4: Interactions")
         
         box = layout.box()
@@ -51,6 +63,9 @@ classes = (
     batch_01.ADEOLA_OT_add_magnetic_cluster,
     batch_01.ADEOLA_OT_add_jelly_bounce,
     batch_01.ADEOLA_OT_add_laser_scan,
+    batch_02.ADEOLA_OT_add_deflation,
+    batch_02.ADEOLA_OT_add_squash_stretch,
+    batch_02.ADEOLA_OT_add_hex_ripple,
     interactions.ADEOLA_OT_add_morph_interaction,
 )
 

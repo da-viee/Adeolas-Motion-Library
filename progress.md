@@ -1,10 +1,10 @@
 # Motion Library Progress Tracker (100 Motions)
 
-**Total Completed:** 4 / 100
+**Total Completed:** 7 / 100
 
-### Category 1: Advanced Distribution & Layout (1 / 10)
+### Category 1: Advanced Distribution & Layout (3 / 10)
 1. [x] Magnetic Cluster
-2. [ ] 
+2. [x] Hex-Grid Ripple
 3. [ ] 
 4. [ ] 
 5. [ ] 
@@ -14,10 +14,10 @@
 9. [ ] 
 10. [ ] 
 
-### Category 2: Faux-Physics & Soft Body (1 / 10)
+### Category 2: Faux-Physics & Soft Body (3 / 10)
 11. [x] Jelly Bounce
-12. [ ] 
-13. [ ] 
+12. [x] Deflation / Inflation
+13. [x] Squash & Stretch Overdrive
 14. [ ] 
 15. [ ] 
 16. [ ] 
