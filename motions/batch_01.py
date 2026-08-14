@@ -9,22 +9,26 @@ def build_magnetic_cluster():
     nodes = group.nodes
     links = group.links
     
-    # Input
     input_node = nodes.new('NodeGroupInput')
     input_node.location = (-400, 0)
     
-    # Example placeholder for Magnetic Cluster logic
-    # In reality, this would involve Set Position, Vector Math (Distance), and a Target Object
-    transform_node = nodes.new('GeometryNodeTransform')
-    transform_node.location = (0, 0)
+    # Random Scale to simulate clustering effect
+    transform = nodes.new('GeometryNodeTransform')
+    transform.location = (0, 0)
     
-    # Output
+    random_val = nodes.new('FunctionNodeRandomValue')
+    random_val.location = (-200, -100)
+    random_val.data_type = 'FLOAT'
+    random_val.inputs[2].default_value = 0.5  # Min
+    random_val.inputs[3].default_value = 1.5  # Max
+    
     output_node = nodes.new('NodeGroupOutput')
     output_node.location = (400, 0)
     
-    # Link
-    links.new(input_node.outputs['Geometry'], transform_node.inputs['Geometry'])
-    links.new(transform_node.outputs['Geometry'], output_node.inputs['Geometry'])
+    # Links
+    links.new(random_val.outputs['Value'], transform.inputs['Scale'])
+    links.new(input_node.outputs['Geometry'], transform.inputs['Geometry'])
+    links.new(transform.outputs['Geometry'], output_node.inputs['Geometry'])
     
     return group_name
 
@@ -39,15 +43,35 @@ def build_jelly_bounce():
     input_node = nodes.new('NodeGroupInput')
     input_node.location = (-400, 0)
     
-    # Placeholder for Simulation Zone or complex math
-    set_pos_node = nodes.new('GeometryNodeSetPosition')
-    set_pos_node.location = (0, 0)
+    # Time based sine wave bobbing (Jelly Bounce)
+    set_pos = nodes.new('GeometryNodeSetPosition')
+    set_pos.location = (0, 0)
+    
+    scene_time = nodes.new('GeometryNodeInputSceneTime')
+    scene_time.location = (-400, -200)
+    
+    math_sine = nodes.new('ShaderNodeMath')
+    math_sine.operation = 'SINE'
+    math_sine.location = (-200, -200)
+    
+    math_mult = nodes.new('ShaderNodeMath')
+    math_mult.operation = 'MULTIPLY'
+    math_mult.inputs[1].default_value = 2.0  # Speed
+    math_mult.location = (-400, -400)
+    
+    combine_xyz = nodes.new('ShaderNodeCombineXYZ')
+    combine_xyz.location = (-200, -400)
     
     output_node = nodes.new('NodeGroupOutput')
     output_node.location = (400, 0)
     
-    links.new(input_node.outputs['Geometry'], set_pos_node.inputs['Geometry'])
-    links.new(set_pos_node.outputs['Geometry'], output_node.inputs['Geometry'])
+    # Links
+    links.new(scene_time.outputs['Seconds'], math_mult.inputs[0])
+    links.new(math_mult.outputs['Value'], math_sine.inputs[0])
+    links.new(math_sine.outputs['Value'], combine_xyz.inputs['Z'])
+    links.new(combine_xyz.outputs['Vector'], set_pos.inputs['Offset'])
+    links.new(input_node.outputs['Geometry'], set_pos.inputs['Geometry'])
+    links.new(set_pos.outputs['Geometry'], output_node.inputs['Geometry'])
     
     return group_name
 
@@ -60,17 +84,36 @@ def build_laser_scan():
     links = group.links
     
     input_node = nodes.new('NodeGroupInput')
-    input_node.location = (-400, 0)
+    input_node.location = (-600, 0)
     
-    # Placeholder for Boolean math or Delete Geometry
-    delete_geom_node = nodes.new('GeometryNodeDeleteGeometry')
-    delete_geom_node.location = (0, 0)
+    # Delete geometry based on Z height (Laser Scan)
+    delete_geom = nodes.new('GeometryNodeDeleteGeometry')
+    delete_geom.location = (0, 0)
+    
+    position = nodes.new('GeometryNodeInputPosition')
+    position.location = (-600, -200)
+    
+    separate_xyz = nodes.new('ShaderNodeSeparateXYZ')
+    separate_xyz.location = (-400, -200)
+    
+    math_gt = nodes.new('ShaderNodeMath')
+    math_gt.operation = 'GREATER_THAN'
+    math_gt.inputs[1].default_value = 0.0  # Cutoff height
+    math_gt.location = (-200, -200)
+    
+    # Expose the cutoff height to the modifier panel
+    group.interface.new_socket(name="Scan Height", in_out='INPUT', socket_type='NodeSocketFloat')
     
     output_node = nodes.new('NodeGroupOutput')
     output_node.location = (400, 0)
     
-    links.new(input_node.outputs['Geometry'], delete_geom_node.inputs['Geometry'])
-    links.new(delete_geom_node.outputs['Geometry'], output_node.inputs['Geometry'])
+    # Links
+    links.new(position.outputs['Position'], separate_xyz.inputs['Vector'])
+    links.new(separate_xyz.outputs['Z'], math_gt.inputs[0])
+    links.new(input_node.outputs['Scan Height'], math_gt.inputs[1])
+    links.new(math_gt.outputs['Value'], delete_geom.inputs['Selection'])
+    links.new(input_node.outputs['Geometry'], delete_geom.inputs['Geometry'])
+    links.new(delete_geom.outputs['Geometry'], output_node.inputs['Geometry'])
     
     return group_name
 
