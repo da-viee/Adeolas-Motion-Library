@@ -1,5 +1,5 @@
 import bpy
-from ..utils.node_builder import get_or_create_node_group, apply_modifier_to_object, clear_group
+from ..utils.node_builder import get_or_create_node_group, apply_modifier_to_object, clear_group, add_socket_to_group
 
 def build_deflation():
     group_name = "Motion_Deflation"
@@ -60,7 +60,7 @@ def build_squash_stretch():
     input_node = nodes.new('NodeGroupInput')
     input_node.location = (-400, 0)
     
-    group.interface.new_socket(name="Squash Factor", in_out='INPUT', socket_type='NodeSocketFloat')
+    add_socket_to_group(group, 'INPUT', 'NodeSocketFloat', "Squash Factor")
     # Default value for the socket in newer blender versions is set slightly differently, but we'll let it default to 0.0
     
     transform = nodes.new('GeometryNodeTransform')

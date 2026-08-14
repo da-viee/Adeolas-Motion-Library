@@ -101,8 +101,9 @@ def build_laser_scan():
     math_gt.inputs[1].default_value = 0.0  # Cutoff height
     math_gt.location = (-200, -200)
     
-    # Expose the cutoff height to the modifier panel
-    group.interface.new_socket(name="Scan Height", in_out='INPUT', socket_type='NodeSocketFloat')
+    input_node = nodes.new('NodeGroupInput')
+    input_node.location = (-600, 0)
+    add_socket_to_group(group, 'INPUT', 'NodeSocketFloat', "Scan Height")
     
     output_node = nodes.new('NodeGroupOutput')
     output_node.location = (400, 0)

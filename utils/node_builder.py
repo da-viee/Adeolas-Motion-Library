@@ -1,5 +1,17 @@
 import bpy
 
+def add_socket_to_group(group, in_out, socket_type, name):
+    """Helper to add sockets compatibly across Blender 3.x and 4.0+."""
+    if hasattr(group, "interface"):
+        # Blender 4.0+
+        return group.interface.new_socket(name=name, in_out=in_out, socket_type=socket_type)
+    else:
+        # Blender 3.x
+        if in_out == 'INPUT':
+            return group.inputs.new(socket_type, name)
+        else:
+            return group.outputs.new(socket_type, name)
+
 def get_or_create_node_group(name):
     """Gets an existing node group or creates a new one."""
     if name in bpy.data.node_groups:
@@ -8,8 +20,8 @@ def get_or_create_node_group(name):
     group = bpy.data.node_groups.new(name, 'GeometryNodeTree')
     
     # Create default input and output nodes
-    group.interface.new_socket(name="Geometry", in_out='INPUT', socket_type='NodeSocketGeometry')
-    group.interface.new_socket(name="Geometry", in_out='OUTPUT', socket_type='NodeSocketGeometry')
+    add_socket_to_group(group, 'INPUT', 'NodeSocketGeometry', "Geometry")
+    add_socket_to_group(group, 'OUTPUT', 'NodeSocketGeometry', "Geometry")
     
     input_node = group.nodes.new('NodeGroupInput')
     input_node.location = (-200, 0)

@@ -1,5 +1,5 @@
 import bpy
-from ..utils.node_builder import get_or_create_node_group, apply_modifier_to_object, clear_group
+from ..utils.node_builder import get_or_create_node_group, apply_modifier_to_object, clear_group, add_socket_to_group
 
 def build_morph_interaction():
     group_name = "Motion_Morph_A_to_B"
@@ -12,9 +12,8 @@ def build_morph_interaction():
     input_node = nodes.new('NodeGroupInput')
     input_node.location = (-600, 0)
     
-    # Expose the Target Object (B) to the modifier panel
-    group.interface.new_socket(name="Target Object", in_out='INPUT', socket_type='NodeSocketObject')
-    group.interface.new_socket(name="Morph Factor", in_out='INPUT', socket_type='NodeSocketFloat')
+    add_socket_to_group(group, 'INPUT', 'NodeSocketObject', "Target Object")
+    add_socket_to_group(group, 'INPUT', 'NodeSocketFloat', "Morph Factor")
     
     # Object Info node to get Target B's geometry
     obj_info = nodes.new('GeometryNodeObjectInfo')

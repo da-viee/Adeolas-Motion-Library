@@ -28,13 +28,14 @@ def build_typewriter():
     string_to_curves = nodes.new('GeometryNodeStringToCurves')
     string_to_curves.location = (-200, 0)
     
-    slice_curve = nodes.new('GeometryNodeCurveEndpointSelection')
+    slice_curve = nodes.new('GeometryNodeTrimCurve')
     slice_curve.location = (0, 0)
     
     output_node = nodes.new('NodeGroupOutput')
     output_node.location = (200, 0)
     
-    links.new(string_to_curves.outputs['Curve Instances'], output_node.inputs['Geometry'])
+    links.new(string_to_curves.outputs['Curve Instances'], slice_curve.inputs['Curve'])
+    links.new(slice_curve.outputs['Curve'], output_node.inputs['Geometry'])
     return group_name
 
 def build_extrusion_pop():

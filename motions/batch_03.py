@@ -1,5 +1,5 @@
 import bpy
-from ..utils.node_builder import get_or_create_node_group, apply_modifier_to_object, clear_group
+from ..utils.node_builder import get_or_create_node_group, apply_modifier_to_object, clear_group, add_socket_to_group
 
 def build_wireframe_reveal():
     group_name = "Motion_WireframeReveal"
@@ -11,7 +11,7 @@ def build_wireframe_reveal():
     
     input_node = nodes.new('NodeGroupInput')
     input_node.location = (-600, 0)
-    group.interface.new_socket(name="Reveal Factor", in_out='INPUT', socket_type='NodeSocketFloat')
+    add_socket_to_group(group, 'INPUT', 'NodeSocketFloat', "Reveal Factor")
     
     # Mesh to Curve -> Curve to Mesh
     mesh_to_curve = nodes.new('GeometryNodeMeshToCurve')
@@ -75,7 +75,7 @@ def build_boolean_growth():
     
     input_node = nodes.new('NodeGroupInput')
     input_node.location = (-400, 0)
-    group.interface.new_socket(name="Growth Size", in_out='INPUT', socket_type='NodeSocketFloat')
+    add_socket_to_group(group, 'INPUT', 'NodeSocketFloat', "Growth Size")
     
     icosphere = nodes.new('GeometryNodeMeshIcoSphere')
     icosphere.inputs['Subdivisions'].default_value = 4
@@ -106,7 +106,7 @@ def build_voxelize():
     
     input_node = nodes.new('NodeGroupInput')
     input_node.location = (-400, 0)
-    group.interface.new_socket(name="Voxel Size", in_out='INPUT', socket_type='NodeSocketFloat')
+    add_socket_to_group(group, 'INPUT', 'NodeSocketFloat', "Voxel Size")
     
     mesh_to_vol = nodes.new('GeometryNodeMeshToVolume')
     mesh_to_vol.location = (-200, 0)
