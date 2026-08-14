@@ -25,6 +25,10 @@ class ADEOLA_PT_motion_panel(bpy.types.Panel):
         layout = self.layout
         scene = context.scene
 
+        # Global Settings
+        layout.prop(scene, "adeola_apply_to_children")
+        layout.separator()
+
         layout.label(text="Phase 1: Foundation")
         
         row = layout.row()
@@ -87,6 +91,11 @@ classes = (
 def register():
     bpy.types.Scene.adeola_source_obj = bpy.props.PointerProperty(type=bpy.types.Object)
     bpy.types.Scene.adeola_target_obj = bpy.props.PointerProperty(type=bpy.types.Object)
+    bpy.types.Scene.adeola_apply_to_children = bpy.props.BoolProperty(
+        name="Apply to Children",
+        description="If checked, applying a motion will also apply it to all mesh children of the selected object",
+        default=False
+    )
     
     for cls in classes:
         bpy.utils.register_class(cls)
@@ -94,6 +103,7 @@ def register():
 def unregister():
     del bpy.types.Scene.adeola_source_obj
     del bpy.types.Scene.adeola_target_obj
+    del bpy.types.Scene.adeola_apply_to_children
     
     for cls in reversed(classes):
         bpy.utils.unregister_class(cls)
