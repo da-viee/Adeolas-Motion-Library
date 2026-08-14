@@ -1,6 +1,6 @@
 # Motion Library Progress Tracker (100 Motions)
 
-**Total Completed:** 10 / 100
+**Total Completed:** 20 / 100
 
 ### Category 1: Advanced Distribution & Layout (3 / 10)
 1. [x] Magnetic Cluster
@@ -62,24 +62,24 @@
 49. [ ] 
 50. [ ] 
 
-### Category 6: Drag & Drop VFX Assets (0 / 10)
-51. [ ] 
-52. [ ] 
-53. [ ] 
-54. [ ] 
-55. [ ] 
+### Category 6: Drag & Drop VFX Assets (5 / 10)
+51. [x] Crown Splash
+52. [x] Directional Splash (Confetti Cannon placeholder)
+53. [x] Dust Poof
+54. [x] Ground Impact Debris
+55. [x] Speed Lines
 56. [ ] 
 57. [ ] 
 58. [ ] 
 59. [ ] 
 60. [ ] 
 
-### Category 7 & 8: Text Motion Graphics (0 / 30)
-61. [ ] 
-62. [ ] 
-63. [ ] 
-64. [ ] 
-65. [ ] 
+### Category 7 & 8: Text Motion Graphics (5 / 30)
+61. [x] Typewriter Reveal
+62. [x] 3D Extrusion Pop
+63. [x] Wavy Text
+64. [x] Jiggle Physics Text
+65. [x] Glitch Slice
 66. [ ] 
 67. [ ] 
 68. [ ] 

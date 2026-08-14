@@ -11,7 +11,7 @@ bl_info = {
 }
 
 import bpy
-from .motions import batch_01, batch_02, batch_03, interactions
+from .motions import batch_01, batch_02, batch_03, batch_04_assets, batch_05_typography, interactions
 
 class ADEOLA_PT_motion_panel(bpy.types.Panel):
     """Creates a Panel in the scene context of the properties editor"""
@@ -73,6 +73,42 @@ class ADEOLA_PT_motion_panel(bpy.types.Panel):
         
         row = box.row()
         row.operator("adeola.add_morph_interaction", text="Morph A to B")
+        
+        layout.separator()
+        layout.label(text="Phase 5: VFX Assets (Drag & Drop)")
+        
+        row = layout.row()
+        row.operator("adeola.add_crown_splash", text="Add Crown Splash")
+        
+        row = layout.row()
+        row.operator("adeola.add_confetti", text="Add Confetti Cannon")
+        
+        row = layout.row()
+        row.operator("adeola.add_dust_poof", text="Add Dust Poof")
+        
+        row = layout.row()
+        row.operator("adeola.add_impact_debris", text="Add Impact Debris")
+        
+        row = layout.row()
+        row.operator("adeola.add_speed_lines", text="Add Speed Lines")
+        
+        layout.separator()
+        layout.label(text="Phase 6: Kinetic Typography")
+        
+        row = layout.row()
+        row.operator("adeola.add_typewriter", text="Typewriter Reveal")
+        
+        row = layout.row()
+        row.operator("adeola.add_extrusion_pop", text="3D Extrusion Pop")
+        
+        row = layout.row()
+        row.operator("adeola.add_wavy_text", text="Wavy Text")
+        
+        row = layout.row()
+        row.operator("adeola.add_jiggle_text", text="Jiggle Physics")
+        
+        row = layout.row()
+        row.operator("adeola.add_glitch_slice", text="Glitch Slice")
 
 classes = (
     ADEOLA_PT_motion_panel,
@@ -86,6 +122,16 @@ classes = (
     batch_03.ADEOLA_OT_add_boolean_growth,
     batch_03.ADEOLA_OT_add_voxelize,
     interactions.ADEOLA_OT_add_morph_interaction,
+    batch_04_assets.ADEOLA_OT_add_crown_splash,
+    batch_04_assets.ADEOLA_OT_add_confetti,
+    batch_04_assets.ADEOLA_OT_add_dust_poof,
+    batch_04_assets.ADEOLA_OT_add_impact_debris,
+    batch_04_assets.ADEOLA_OT_add_speed_lines,
+    batch_05_typography.ADEOLA_OT_add_typewriter,
+    batch_05_typography.ADEOLA_OT_add_extrusion_pop,
+    batch_05_typography.ADEOLA_OT_add_wavy_text,
+    batch_05_typography.ADEOLA_OT_add_jiggle_text,
+    batch_05_typography.ADEOLA_OT_add_glitch_slice,
 )
 
 def register():
