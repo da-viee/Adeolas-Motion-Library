@@ -11,7 +11,7 @@ bl_info = {
 }
 
 import bpy
-from .motions import batch_01
+from .motions import batch_01, interactions
 
 class ADEOLA_PT_motion_panel(bpy.types.Panel):
     """Creates a Panel in the scene context of the properties editor"""
@@ -23,6 +23,7 @@ class ADEOLA_PT_motion_panel(bpy.types.Panel):
 
     def draw(self, context):
         layout = self.layout
+        scene = context.scene
 
         layout.label(text="Phase 1: Foundation")
         
@@ -34,19 +35,36 @@ class ADEOLA_PT_motion_panel(bpy.types.Panel):
         
         row = layout.row()
         row.operator("adeola.add_laser_scan", text="Laser Scan Reveal")
+        
+        layout.separator()
+        layout.label(text="Phase 4: Interactions")
+        
+        box = layout.box()
+        box.prop(scene, "adeola_source_obj", text="Source (A)")
+        box.prop(scene, "adeola_target_obj", text="Target (B)")
+        
+        row = box.row()
+        row.operator("adeola.add_morph_interaction", text="Morph A to B")
 
 classes = (
     ADEOLA_PT_motion_panel,
     batch_01.ADEOLA_OT_add_magnetic_cluster,
     batch_01.ADEOLA_OT_add_jelly_bounce,
     batch_01.ADEOLA_OT_add_laser_scan,
+    interactions.ADEOLA_OT_add_morph_interaction,
 )
 
 def register():
+    bpy.types.Scene.adeola_source_obj = bpy.props.PointerProperty(type=bpy.types.Object)
+    bpy.types.Scene.adeola_target_obj = bpy.props.PointerProperty(type=bpy.types.Object)
+    
     for cls in classes:
         bpy.utils.register_class(cls)
 
 def unregister():
+    del bpy.types.Scene.adeola_source_obj
+    del bpy.types.Scene.adeola_target_obj
+    
     for cls in reversed(classes):
         bpy.utils.unregister_class(cls)
 
